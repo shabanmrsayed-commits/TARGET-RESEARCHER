@@ -106,4 +106,7 @@ app.post('/api/analyze', async (req, res) => {
     }
 });
 
+
 app.listen(port, () => console.log(`[RADAR V3.0 ONLINE] http://localhost:${port}`));
+
+module.exports = app;
