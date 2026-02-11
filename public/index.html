@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Founder // V3.0</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --neon-blue: #00f3ff;
+            --neon-purple: #bc13fe;
+            --neon-green: #0aff0a;
+            --neon-red: #ff003c;
+            --bg-dark: #050505;
+            --panel-bg: rgba(16, 20, 28, 0.95);
+            --font-main: 'Rajdhani', sans-serif;
+            --font-header: 'Orbitron', sans-serif;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0; background: var(--bg-dark); color: #e0e0e0;
+            font-family: var(--font-main); overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #111 0%, #000 100%);
+        }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon-blue); border-radius: 3px; }
+
+        /* Layout */
+        .app-container { display: grid; grid-template-columns: 350px 1fr; min-height: 100vh; border-top: 2px solid var(--neon-blue); }
+        
+        /* Sidebar */
+        .sidebar {
+            background: var(--panel-bg); border-right: 1px solid rgba(255,255,255,0.1);
+            padding: 20px; position: sticky; top: 0; height: 100vh; overflow-y: auto; display: flex; flex-direction: column;
+        }
+
+        .brand {
+            font-family: var(--font-header); font-size: 1.5rem; color: var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-blue); margin-bottom: 25px; display: flex; align-items: center; gap: 10px;
+        }
+        .brand i { animation: spin 5s linear infinite; }
+
+        /* Inputs */
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-label { color: var(--neon-purple); font-size: 0.8rem; margin-bottom: 5px; font-weight: bold; letter-spacing: 1px; }
+        input, textarea {
+            width: 100%; background: rgba(0,0,0,0.6); border: 1px solid #333; color: #fff;
+            padding: 12px; font-family: var(--font-main); font-size: 0.9rem; border-radius: 4px;
+            transition: 0.3s;
+        }
+        textarea { height: 80px; resize: vertical; }
+        input:focus, textarea:focus { border-color: var(--neon-blue); outline: none; box-shadow: 0 0 10px rgba(0, 243, 255, 0.2); }
+        
+        .btn-action {
+            background: var(--neon-blue); color: #000; border: none; padding: 10px; width: 100%;
+            font-family: var(--font-header); font-weight: bold; cursor: pointer; transition: 0.3s;
+            clip-path: polygon(0 0, 100% 0, 100% 80%, 95% 100%, 0 100%);
+        }
+        .btn-action:hover { background: #fff; box-shadow: 0 0 15px var(--neon-blue); }
+
+        /* Results */
+        .author-card {
+            background: rgba(255,255,255,0.03); border-left: 3px solid #333; padding: 15px; margin-bottom: 10px; cursor: pointer; transition: 0.3s;
+        }
+        .author-card:hover { border-left-color: var(--neon-blue); background: rgba(0, 243, 255, 0.05); }
+
+        /* Main View */
+        .main-view { padding: 40px; }
+        
+        /* Stats Grid */
+        .dash-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-box { background: rgba(255,255,255,0.02); border: 1px solid #333; padding: 15px; text-align: center; }
+        .sb-val { font-size: 1.8rem; font-weight: bold; color: #fff; font-family: var(--font-header); }
+        .sb-lbl { font-size: 0.7rem; color: #888; letter-spacing: 1px; }
+
+        /* Match Gauge */
+        .match-container {
+            display: flex; align-items: center; justify-content: space-between;
+            background: linear-gradient(90deg, rgba(0,0,0,0.8), rgba(0, 243, 255, 0.05));
+            border: 1px solid var(--neon-blue); padding: 20px; margin-bottom: 30px; border-radius: 8px;
+        }
+        .gauge-wrapper { position: relative; width: 100px; height: 100px; }
+        .gauge-circle { transform: rotate(-90deg); transform-origin: 50% 50%; }
+        .gauge-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; font-weight: bold; font-family: var(--font-header); color: #fff; }
+
+        /* Report */
+        .ai-report {
+            background: #0e0e10; border: 1px solid #333; padding: 30px; border-radius: 4px; line-height: 1.8;
+            font-size: 1.05rem; position: relative; margin-bottom: 30px;
+        }
+        .ai-report::before { content: 'INTELLIGENCE REPORT // GEMINI 1.5'; position: absolute; top: -10px; left: 20px; background: var(--bg-dark); color: var(--neon-purple); padding: 0 10px; font-size: 0.8rem; font-weight: bold; }
+        .ai-report b { color: var(--neon-blue); }
+
+        /* Tags */
+        .tech-tag { display: inline-block; background: rgba(0, 243, 255, 0.1); color: var(--neon-blue); padding: 5px 10px; margin: 0 5px 5px 0; border-radius: 4px; border: 1px solid rgba(0, 243, 255, 0.3); font-size: 0.8rem; }
+
+        /* Papers */
+        .paper-row { display: flex; justify-content: space-between; padding: 15px; border-bottom: 1px solid #222; transition: 0.2s; }
+        .paper-row:hover { background: rgba(255,255,255,0.03); }
+        .p-year { color: var(--neon-purple); font-weight: bold; margin-right: 15px; min-width: 50px; }
+        .p-title { color: #ddd; text-decoration: none; }
+        .p-title:hover { color: var(--neon-blue); }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="brand"><i class="fas fa-satellite-dish"></i> اي اسم V3.0</div>
+        
+        <div class="input-group">
+            <div class="input-label">TARGET RESEARCHER</div>
+            <input type="text" id="q" placeholder="Dr. Sherif Hosny">
+        </div>
+        
+        <div class="input-group">
+            <div class="input-label">MISSION PARAMETERS (OPTIONAL)</div>
+            <textarea id="desc" placeholder="Describe the field/topic you are looking for (e.g. 'Advanced NLP with focus on Transformers')..."></textarea>
+        </div>
+
+        <button class="btn-action" onclick="search()"><i class="fas fa-search"></i> INITIATE SCAN</button>
+
+        <div id="results-list" style="margin-top: 20px;"></div>
+    </div>
+
+    <!-- MAIN DASHBOARD -->
+    <div class="main-view" id="main-view">
+        <div style="height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #444;">
+            <i class="fas fa-network-wired" style="font-size: 4rem; margin-bottom: 20px; opacity: 0.5;"></i>
+            <h2 style="font-family: var(--font-header);">SYSTEM READY</h2>
+            <p>Enter parameters to begin intelligence gathering.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- 1. SEARCH FUNCTION ---
+    async function search() {
+        const query = document.getElementById('q').value;
+        if(!query) return;
+
+        const list = document.getElementById('results-list');
+        list.innerHTML = '<div style="color:var(--neon-blue); text-align:center;">SCANNING DATABASE...</div>';
+
+        try {
+            const res = await fetch(`/api/search?q=${query}`);
+            const data = await res.json();
+            
+            list.innerHTML = '';
+            if(data.length === 0) { list.innerHTML = 'No targets found.'; return; }
+
+            data.forEach(a => {
+                const div = document.createElement('div');
+                div.className = 'author-card';
+                div.innerHTML = `
+                    <div style="font-weight:bold; color:#fff">${a.name}</div>
+                    <div style="font-size:0.8rem; color:#888">${a.affiliations?.[0] || 'Unknown'}</div>
+                    <div style="margin-top:5px; font-size:0.75rem">
+                        <span style="color:var(--neon-green)">H-IDX: ${a.hIndex}</span> | 
+                        <span>PAPERS: ${a.paperCount}</span>
+                    </div>
+                `;
+                div.onclick = () => analyzeTarget(a.authorId);
+                list.appendChild(div);
+            });
+        } catch (e) {
+            list.innerHTML = 'Error contacting server.';
+        }
+    }
+
+    // --- 2. DEEP ANALYSIS FUNCTION ---
+    async function analyzeTarget(id) {
+        const view = document.getElementById('main-view');
+        const desc = document.getElementById('desc').value; // Get user description
+
+        // Loader
+        view.innerHTML = `
+            <div style="text-align:center; margin-top:100px;">
+                <div style="font-size:3rem; color:var(--neon-blue); margin-bottom:20px;"><i class="fas fa-spinner fa-spin"></i></div>
+                <h2 style="font-family:var(--font-header); color:#fff">GATHERING INTELLIGENCE...</h2>
+                <p style="color:var(--neon-purple)">Analyzing Career Trajectory & Match Score</p>
+                <p style="font-size:0.8rem; color:#666">Processing Top 60 Publications via AI</p>
+            </div>
+        `;
+
+        try {
+            // POST request to send description
+            const res = await fetch('/api/analyze', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ authorId: id, userDescription: desc })
+            });
+
+            if (res.status === 429) {
+                view.innerHTML = '<h2 style="color:red; text-align:center">RATE LIMIT EXCEEDED. WAIT 30s.</h2>';
+                return;
+            }
+
+            const data = await res.json();
+            const { author, analysis, collaborators } = data;
+            
+            // Color logic for match score
+            let scoreColor = '#ff003c'; // Red (Low)
+            if(analysis.match_score > 50) scoreColor = '#ffae00'; // Orange (Med)
+            if(analysis.match_score > 80) scoreColor = '#0aff0a'; // Green (High)
+
+            // Render Dashboard
+            view.innerHTML = `
+                <!-- HEADER -->
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid #333; padding-bottom:20px; margin-bottom:20px;">
+                    <div>
+                        <h1 style="margin:0; font-family:var(--font-header); font-size:2.5rem; text-transform:uppercase">${author.name}</h1>
+                        <div style="color:var(--neon-blue); font-size:1.1rem">${author.affiliations?.[0] || 'Global Researcher'}</div>
+                    </div>
+                    <a href="${author.url}" target="_blank" class="btn-action" style="width:auto; text-decoration:none; font-size:0.8rem">
+                        EXTERNAL LINK <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <!-- MATCH GAUGE (Only if description was provided, otherwise generic match) -->
+                <div class="match-container" style="border-color:${scoreColor}">
+                    <div>
+                        <div style="font-family:var(--font-header); font-size:1.2rem; color:${scoreColor}">RELEVANCE MATCH SCORE</div>
+                        <div style="color:#aaa; max-width:600px; margin-top:5px;">${analysis.match_reason}</div>
+                    </div>
+                    <div class="gauge-wrapper">
+                        <svg width="100" height="100">
+                            <circle cx="50" cy="50" r="40" stroke="#333" stroke-width="8" fill="none"></circle>
+                            <circle cx="50" cy="50" r="40" stroke="${scoreColor}" stroke-width="8" fill="none"
+                                stroke-dasharray="251" stroke-dashoffset="${251 - (251 * analysis.match_score / 100)}" 
+                                class="gauge-circle" style="transition: stroke-dashoffset 1s ease-out;"></circle>
+                        </svg>
+                        <div class="gauge-text">${analysis.match_score}%</div>
+                    </div>
+                </div>
+
+                <!-- KEY METRICS -->
+                <div class="dash-grid">
+                    <div class="stat-box"><div class="sb-val" style="color:var(--neon-purple)">${author.hIndex}</div><div class="sb-lbl">H-INDEX</div></div>
+                    <div class="stat-box"><div class="sb-val" style="color:var(--neon-blue)">${new Intl.NumberFormat().format(author.citationCount)}</div><div class="sb-lbl">CITATIONS</div></div>
+                    <div class="stat-box"><div class="sb-val" style="color:var(--neon-green)">${author.paperCount}</div><div class="sb-lbl">PAPERS</div></div>
+                </div>
+
+                <!-- AI REPORT -->
+                <div class="ai-report">
+                    <div style="margin-bottom:15px;">
+                        ${analysis.key_technologies.map(t => `<span class="tech-tag">${t}</span>`).join('')}
+                    </div>
+                    <div id="report-text">${analysis.full_report.replace(/\n/g, '<br><br>')}</div>
+                </div>
+
+                <!-- SPLIT VIEW: PAPERS & COLLABORATORS -->
+                <div style="display:grid; grid-template-columns: 2fr 1fr; gap:30px;">
+                    <!-- PAPERS -->
+                    <div>
+                        <h3 style="color:var(--neon-blue); font-family:var(--font-header)">// TOP TRANSMISSIONS</h3>
+                        ${author.papers.slice(0, 8).map(p => `
+                            <div class="paper-row">
+                                <span class="p-year">${p.year || 'N/A'}</span>
+                                <div>
+                                    <a href="${p.url}" target="_blank" class="p-title">${p.title}</a>
+                                    <div style="font-size:0.8rem; color:#666; margin-top:3px;">
+                                        <i class="fas fa-quote-right"></i> ${p.citationCount} | ${p.venue || 'Journal'}
+                                    </div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <!-- NETWORK -->
+                    <div>
+                        <h3 style="color:var(--neon-purple); font-family:var(--font-header)">// NETWORK</h3>
+                        <div style="background:#111; padding:15px; border-radius:4px;">
+                            ${collaborators.map(c => `
+                                <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid #222;">
+                                    <span>${c[0]}</span>
+                                    <span style="color:var(--neon-purple)">${c[1]}x</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        } catch (e) {
+            console.error(e);
+            view.innerHTML = '<h2 style="color:red; text-align:center">ANALYSIS FAILED. CHECK CONSOLE.</h2>';
+        }
+    }
+</script>
+
+</body>
+</html>
