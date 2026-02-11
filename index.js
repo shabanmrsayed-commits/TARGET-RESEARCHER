@@ -7,8 +7,7 @@ const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3000;
 
-// نستخدم Gemini 1.5 Flash لأنه يمتلك نافذة سياق ضخمة (1 Million Tokens)
-// هذا يسمح لنا بإرسال تفاصيل عشرات الأوراق البحثية دفعة واحدة للتحليل
+
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash-lite" });
 
@@ -48,7 +47,6 @@ app.post('/api/analyze', async (req, res) => {
         const author = resData.data;
 
         // 2. Pre-process Data for AI
-        // نقوم بفرز الأوراق حسب الأهمية (الاستشهادات) وأخذ أهم 60 ورقة لتقليل الحمل مع الحفاظ على الدقة
         const keyPapers = author.papers
             .sort((a,b) => (b.citationCount || 0) - (a.citationCount || 0))
             .slice(0, 60)
@@ -106,7 +104,4 @@ app.post('/api/analyze', async (req, res) => {
     }
 });
 
-
 app.listen(port, () => console.log(`[RADAR V3.0 ONLINE] http://localhost:${port}`));
-
-module.exports = app;
